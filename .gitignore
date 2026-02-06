@@ -1,0 +1,24 @@
+# Build artifacts
+*.log
+build.log
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Editor
+.vscode/
+.idea/
+*.sublime-*
+
+# Backup files
+*.original
+*.backup
+*.bak
+Dockerfile.bak
+
+# Docker
+.dockerignore
