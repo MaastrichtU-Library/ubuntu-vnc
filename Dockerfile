@@ -1,10 +1,10 @@
-# Built for DSRI - optimized Ubuntu VNC lxde-core image: ubuntu:24.04
+# Built for DSRI - optimized Ubuntu VNC lxde-core image: ubuntu:22.04
 # Based on original work by Vincent Emonet
 ################################################################################
 # base system
 ################################################################################
 
-ARG BASE_IMAGE=ubuntu:24.04
+ARG BASE_IMAGE=ubuntu:22.04
 
 FROM $BASE_IMAGE AS system
 
@@ -37,7 +37,7 @@ RUN apt update \
 # Desktop environemnt (lxde-core)
 RUN apt update \
     && apt install -y --no-install-recommends --allow-unauthenticated \
-        lxde-core lxterminal gtk2-engines-pixbuf gtk2-engines-murrine arc-theme \
+        lxde-core lxterminal  gtk2-engines-pixbuf gtk2-engines-murrine arc-theme \
     && apt autoclean -y \
     && apt autoremove -y \
     && rm -rf /var/lib/apt/lists/*
@@ -53,7 +53,8 @@ COPY rootfs/usr/local/lib/web/backend/requirements.txt /tmp/
 RUN apt-get update \
     && dpkg-query -W -f='${Package}\n' > /tmp/a.txt \
     && apt-get install -y python3-pip python3-dev build-essential \
-	&& pip3 install setuptools wheel && pip3 install -r /tmp/requirements.txt \
+	&& pip3 install setuptools wheel \
+    && pip3 install -r /tmp/requirements.txt \
     && ln -s /usr/bin/python3 /usr/local/bin/python \
     && dpkg-query -W -f='${Package}\n' > /tmp/b.txt \
     && apt-get remove -y `diff --changed-group-format='%>' --unchanged-group-format='' /tmp/a.txt /tmp/b.txt | xargs` \
@@ -74,8 +75,11 @@ RUN ln -sf /usr/local/lib/web/frontend/static/websockify /usr/local/lib/web/fron
 	chmod +x /usr/local/lib/web/frontend/static/websockify/run
 
 EXPOSE 80
+# Create the folder where DSRI storage will be mounted
+RUN mkdir -p /root/persistent
+
 WORKDIR /root
-ENV HOME=/home/ubuntu \
+ENV HOME=/root \
     SHELL=/bin/bash
 HEALTHCHECK --interval=30s --timeout=5s CMD curl --fail http://127.0.0.1:6079/api/health
 RUN chmod +x /startup.sh
