@@ -37,7 +37,7 @@ RUN apt update \
 # Desktop environemnt (lxde-core)
 RUN apt update \
     && apt install -y --no-install-recommends --allow-unauthenticated \
-        lxde-core lxterminal gnome-themes-standard gtk2-engines-pixbuf gtk2-engines-murrine arc-theme \
+        lxde-core lxterminal gtk2-engines-pixbuf gtk2-engines-murrine arc-theme \
     && apt autoclean -y \
     && apt autoremove -y \
     && rm -rf /var/lib/apt/lists/*
