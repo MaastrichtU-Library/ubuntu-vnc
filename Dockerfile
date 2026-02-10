@@ -89,7 +89,6 @@ COPY web /src/web
 RUN cd /src/web \
     && yarn \
     && yarn build
-RUN sed -i 's#app/locale/#novnc/app/locale/#' /src/web/dist/static/novnc/app/ui.js
 
 ################################################################################
 # merge
