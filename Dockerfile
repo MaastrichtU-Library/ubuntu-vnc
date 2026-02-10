@@ -6,14 +6,14 @@
 
 ARG BASE_IMAGE=ubuntu:24.04
 
-FROM $BASE_IMAGE as system
+FROM $BASE_IMAGE AS system
 
 
 RUN sed -i 's#http://archive.ubuntu.com/ubuntu/#mirror://mirrors.ubuntu.com/mirrors.txt#' /etc/apt/sources.list;
 
 
 # built-in packages
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update \
     && apt install -y --no-install-recommends software-properties-common curl apache2-utils \
     && apt update \
@@ -29,7 +29,7 @@ RUN apt update \
 RUN apt update \
     && apt install -y --no-install-recommends --allow-unauthenticated \
         xvfb x11vnc \
-        vim-tiny ttf-ubuntu-font-family ttf-wqy-zenhei  \
+        vim-tiny fonts-ubuntu fonts-wqy-zenhei \
     && apt autoclean -y \
     && apt autoremove -y \
     && rm -rf /var/lib/apt/lists/*
