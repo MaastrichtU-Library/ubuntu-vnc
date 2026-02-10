@@ -67,7 +67,7 @@ RUN apt-get update \
 ################################################################################
 # builder
 ################################################################################
-FROM $BASE_IMAGE as builder
+FROM $BASE_IMAGE AS builder
 
 
 RUN sed -i 's#http://archive.ubuntu.com/ubuntu/#mirror://mirrors.ubuntu.com/mirrors.txt#' /etc/apt/sources.list;
