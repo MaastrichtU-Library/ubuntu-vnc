@@ -98,9 +98,6 @@ LABEL maintainer="Maastricht University - RCS "
 
 COPY --from=builder /src/web/dist/ /usr/local/lib/web/frontend/
 COPY rootfs /
-RUN mkdir -p /usr/local/lib/web/frontend/static/novnc/utils && \
-    ln -sf /usr/local/lib/web/frontend/static/websockify /usr/local/lib/web/frontend/static/novnc/utils/websockify && \
-    chmod +x /usr/local/lib/web/frontend/static/websockify/run
 
 EXPOSE 80
 WORKDIR /root
