@@ -1,10 +1,10 @@
-# Built for DSRI - optimized Ubuntu VNC lxde-core image: ubuntu:24.04
-# Based on original work by Vincent Emonet
+# Built for DSRI - optimized Ubuntu VNC lxde-core image: ubuntu:22.04
+# Based on original work from https://github.com/vemonet/docker-ubuntu-vnc-desktop/
 ################################################################################
 # base system
 ################################################################################
 
-ARG BASE_IMAGE=ubuntu:24.04
+ARG BASE_IMAGE=ubuntu:22.04
 
 FROM $BASE_IMAGE AS system
 
@@ -28,7 +28,7 @@ RUN apt update \
 # VNC and basic tools
 RUN apt update \
     && apt install -y --no-install-recommends --allow-unauthenticated \
-        xvfb x11vnc \
+        xvfb x11vnc python3-websockify \
         vim-tiny fonts-ubuntu fonts-wqy-zenhei \
     && apt autoclean -y \
     && apt autoremove -y \
@@ -53,8 +53,8 @@ COPY rootfs/usr/local/lib/web/backend/requirements.txt /tmp/
 RUN apt-get update \
     && dpkg-query -W -f='${Package}\n' > /tmp/a.txt \
     && apt-get install -y python3-pip python3-dev build-essential \
-	&& pip3 install --break-system-packages --ignore-installed setuptools wheel \
-    && pip3 install --break-system-packages --ignore-installed -r /tmp/requirements.txt \
+	&& pip3 install setuptools wheel \
+    && pip3 install -r /tmp/requirements.txt \
     && ln -s /usr/bin/python3 /usr/local/bin/python \
     && dpkg-query -W -f='${Package}\n' > /tmp/b.txt \
     && apt-get remove -y `diff --changed-group-format='%>' --unchanged-group-format='' /tmp/a.txt /tmp/b.txt | xargs` \
@@ -74,8 +74,8 @@ RUN sed -i 's#http://archive.ubuntu.com/ubuntu/#mirror://mirrors.ubuntu.com/mirr
 RUN apt-get update \
     && apt-get install -y --no-install-recommends curl ca-certificates gnupg patch
 
-# nodejs (updated to version 18 LTS for Ubuntu 24.04 support)
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+# nodejs 
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
     && apt-get install -y nodejs
 
 # yarn

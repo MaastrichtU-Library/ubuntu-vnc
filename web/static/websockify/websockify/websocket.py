@@ -727,7 +727,7 @@ class WebSocket(object):
             if sys.hexversion < 0x3000000:
                 mask = [ ord(c) for c in mask ]
             data = array.array('B')
-            data.fromstring(buf)
+            data.frombytes(buf)
             for i in range(len(data)):
                 data[i] ^= mask[i % 4]
             return data.tostring()
