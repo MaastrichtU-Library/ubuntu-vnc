@@ -1,38 +1,30 @@
 # Ubuntu VNC Desktop
 
-Ubuntu desktop environment with VNC access
-
-## Purpose
-
-Provides a lightweight Ubuntu desktop accessible via web browser for:
-- fMRI analysis with FSL
-- Running bash scripts  
-- CLI-based neuroimaging tools
-- Python scripting for data analysis
+A minimal, stable Ubuntu desktop environment optimized and accessible directly in your browser.
 
 ## Based On
 
-This image is based on [vemonet/docker-ubuntu-vnc-desktop](https://github.com/vemonet/docker-ubuntu-vnc-desktop) with modifications for MRI workflows at Maastricht University.
+This image is based on [vemonet/docker-ubuntu-vnc-desktop](https://github.com/vemonet/docker-ubuntu-vnc-desktop) with modifications for being a more minimal base image.
 
 ### Changes from Original
 
 **Removed:**
-- ❌ Chrome/Chromium browser
-- ❌ FFmpeg and media processing tools
-- ❌ Media players (VLC, etc.)
-- ❌ ARM architecture support
-- ❌ Web development tools
-- ❌ Unnecessary desktop applications
+-  Chrome/Chromium browser
+-  FFmpeg and media processing tools
+-  Media players (VLC, etc.)
+-  ARM architecture support
+-  Web development tools
+-  Unnecessary desktop applications
 
 **Kept:**
-- ✅ Ubuntu 20.04 LTS base
-- ✅ LXDE lightweight desktop environment
-- ✅ x11vnc + noVNC for browser-based access
-- ✅ Supervisor for process management
-- ✅ Basic CLI tools (git, vim, curl, wget)
-- ✅ Terminal emulator
+-  Ubuntu 22.04 LTS base
+-  LXDE lightweight desktop environment
+-  x11vnc + noVNC for browser-based access
+-  Supervisor for process management
+-  Basic CLI tools
+-  Terminal emulator
 
-## Usage
+**Added Dependencies:** Included python3-websockify to ensure the web-to-VNC connection works without needing git.
 
 ### Deploy on DSRI OpenShift
 
@@ -44,13 +36,12 @@ Use the template in the [dsri-documentation](https://github.com/MaastrichtU-IDS/
 docker build -t dsri-ubuntu-vnc:test .
 
 # Run locally
-docker run -d -p 6080:80 -e PASSWORD=test123 --name vnc-test dsri-ubuntu-vnc:test
+docker run -d -p 6080:80 -e PASSWORD=test --name ubuntu-desktop dsri-ubuntu-vnc:tag
 
 # Access in browser: http://localhost:6080
-# Password: test123
 
 # Cleanup
-docker stop vnc-test && docker rm vnc-test
+docker stop ubuntu-desktop  && docker rm ubuntu-desktop 
 ```
 
 ## Persistent Storage
@@ -66,12 +57,11 @@ echo 'export PATH=/root/persistent/bin:$PATH' >> ~/.bashrc
 
 ## Container Registry
 
-Image available at: `ghcr.io/maastrichtu-ids/ubuntu-vnc-desktop:latest`
+Image available at: 
 
 ## Credits
 
 Based on Vincent Emonet's [docker-ubuntu-vnc-desktop](https://github.com/vemonet/docker-ubuntu-vnc-desktop) project.  
-Adapted for MRI workflows at Maastricht University - Institute of Data Science.
 
 ## License
 
