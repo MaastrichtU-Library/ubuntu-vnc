@@ -25,6 +25,21 @@ RUN apt update \
     && apt autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 
+#Firefox    
+###Install GPG and Add Mozilla PPA
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gnupg2 \
+    software-properties-common \
+    && add-apt-repository -y ppa:mozillateam/ppa \
+###Set Pinning: Tell Ubuntu to prefer the PPA version over the Snap version
+    && echo 'Package: *' > /etc/apt/preferences.d/mozilla-firefox \
+    && echo 'Pin: release o=LP-PPA-mozillateam' >> /etc/apt/preferences.d/mozilla-firefox \
+    && echo 'Pin-Priority: 1001' >> /etc/apt/preferences.d/mozilla-firefox \
+###Install the actual Firefox binary
+    && apt-get update \
+    && apt-get install -y --no-install-recommends firefox \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
 # VNC and basic tools
 RUN apt update \
     && apt install -y --no-install-recommends --allow-unauthenticated \
