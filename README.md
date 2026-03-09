@@ -33,10 +33,10 @@ Use the template in the [dsri-documentation](https://github.com/MaastrichtU-IDS/
 ### Local Testing
 ```bash
 # Build the image
-docker build -t dsri-ubuntu-vnc:test .
+docker build -t ubuntu-vnc:tag .
 
 # Run locally
-docker run -d -p 6080:80 -e PASSWORD=test --name ubuntu-desktop dsri-ubuntu-vnc:tag
+docker run -d -p 6080:80 -e PASSWORD=test --name ubuntu-desktop ubuntu-vnc:tag
 
 # Access in browser: http://localhost:6080
 
