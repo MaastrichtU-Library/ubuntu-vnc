@@ -25,6 +25,14 @@ RUN apt update \
     && apt autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 
+#Remove snap
+### Prevent Snap from ever being installed (APT Pinning)
+RUN echo 'Package: snapd\nPin: release a=*\nPin-Priority: -10' > /etc/apt/preferences.d/nosnap && \
+### Try to purge, but "|| true" ensures the build continues if snapd is already missing
+    apt-get update && \
+    apt-get purge -y snapd || true && \
+    apt-get autoremove -y
+
 #Firefox    
 ###Install GPG and Add Mozilla PPA
 RUN apt-get update && apt-get install -y --no-install-recommends \
