@@ -65,4 +65,4 @@ Based on Vincent Emonet's [docker-ubuntu-vnc-desktop](https://github.com/vemonet
 
 ## License
 
-MIT License - see LICENSE file
+This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE) file for details.
